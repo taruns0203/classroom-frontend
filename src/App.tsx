@@ -14,7 +14,7 @@ import { ThemeProvider } from "./components/refine-ui/theme/theme-provider";
 import { dataProvider } from "./providers/data";
 import Dashboard from "./pages/Dashboard";
 import { Layout } from "./components/refine-ui/layout/layout";
-import SubjectsList from "./pages/subjects/list";
+import SubjectsList from "./pages/subjects/List";
 import SubjectsCreate from "./pages/subjects/create";
 
 function App() {
