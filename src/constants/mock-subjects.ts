@@ -31,7 +31,7 @@ export const mockSubjects: Subject[] = [
   {
     id: "3",
     code: "PHY110",
-    name: "General Physics I Here",
+    name: "General Physics I",
     department: "Physics",
     description:
       "Covers classical mechanics, motion, energy, and the fundamentals of physical laws.",
