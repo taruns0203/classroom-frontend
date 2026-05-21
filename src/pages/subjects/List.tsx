@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { DEPARTMETNTS_OPTIONS } from "@/constants";
+import { DEPARTMENT_OPTIONS } from "@/constants";
 import { CreateButton } from "@/components/refine-ui/buttons/create";
 import { Subject } from "@/types";
 import { useTable } from "@refinedev/react-table";
@@ -60,7 +60,7 @@ const SubjectsList = () => {
         },
         {
           id: "department",
-          accessorKey: "department",
+          accessorKey: "department.name",
           size: 150,
           header: () => <p className="column-title">Department</p>,
           cell: ({ getValue }) => (
@@ -128,7 +128,7 @@ const SubjectsList = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Departments</SelectItem>
-                {DEPARTMETNTS_OPTIONS.map((option) => (
+                {DEPARTMENT_OPTIONS.map((option) => (
                   <SelectItem key={option.value} value={option.value}>
                     {option.label}
                   </SelectItem>
