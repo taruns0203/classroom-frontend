@@ -2,6 +2,12 @@ import { createDataProvider, CreateDataProviderOptions } from "@refinedev/rest";
 import { BACKEND_BASE_URL } from "@/constants";
 import { ListResponse } from "@/types";
 
+if (!BACKEND_BASE_URL) {
+  console.warn(
+    "BACKEND_BASE_URL is not set. Data provider will not be configured properly.",
+  );
+}
+
 const options: CreateDataProviderOptions = {
   getList: {
     getEndpoint: ({ resource }) => resource,
@@ -26,15 +32,15 @@ const options: CreateDataProviderOptions = {
         }
       });
 
-      return params; 
+      return params;
     },
     mapResponse: async (response) => {
-      const payLoad: ListResponse = await response.json();
+      const payLoad: ListResponse = await response.clone().json();
       return payLoad?.data ?? [];
     },
 
     getTotalCount: async (response) => {
-      const payLoad: ListResponse = await response.json();
+      const payLoad: ListResponse = await response.clone().json();
       return payLoad?.pagination?.total ?? payLoad?.data?.length ?? 0;
     },
   },
