@@ -1,12 +1,31 @@
 import { createDataProvider, CreateDataProviderOptions } from "@refinedev/rest";
 import { BACKEND_BASE_URL } from "@/constants";
 import { ListResponse } from "@/types";
+import { HttpError } from "@refinedev/core";
 
 if (!BACKEND_BASE_URL) {
   console.warn(
     "BACKEND_BASE_URL is not set. Data provider will not be configured properly.",
   );
 }
+
+const buildHttpErrors = async (response: Response): Promise<HttpError> => {
+  let message = "Request Failed";
+
+  try {
+    const payload = (await response.json()) as { message?: string };
+
+    if (payload?.message) {
+      message = payload.message;
+    }
+  } catch {
+    //Ignore errors
+  }
+  return {
+    message,
+    statusCode: response.status,
+  };
+};
 
 const options: CreateDataProviderOptions = {
   getList: {
@@ -35,11 +54,17 @@ const options: CreateDataProviderOptions = {
       return params;
     },
     mapResponse: async (response) => {
+      if (!response.ok) {
+        throw await buildHttpErrors(response);
+      }
       const payLoad: ListResponse = await response.clone().json();
       return payLoad?.data ?? [];
     },
 
     getTotalCount: async (response) => {
+      if (!response.ok) {
+        throw await buildHttpErrors(response);
+      }
       const payLoad: ListResponse = await response.clone().json();
       return payLoad?.pagination?.total ?? payLoad?.data?.length ?? 0;
     },
